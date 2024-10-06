@@ -1,0 +1,6 @@
+cd /mnt/c/Thesis/HT24_Thesis/code/
+source venv/bin/activate
+
+deactivate
+
+pip list --local
