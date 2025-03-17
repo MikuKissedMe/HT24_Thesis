@@ -1,15 +1,8 @@
-import sys
-import os
-import time
-
-from pathlib import Path
-from Bio import Phylo
-
-
-
+'''
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
 print("Current working directory:", os.getcwd())
+'''
 
 '''
 def PIC(tree):
@@ -71,7 +64,7 @@ def collapse_leaf(leaf_i,leaf_j,LCA):
 
 '''
 
-
+'''
 def PIC_new(tree):
     child_list = []
     for child in tree.clade:
@@ -96,13 +89,6 @@ def traverse(clade):
         if clade.is_preterminal() and len(clade) == 2:
             collapse_parent(clade)
 
-def add_length(leaf_i,leaf_j):
-    # Currently only computing branch length
-    if (float(leaf_i.branch_length) == 0) and (float(leaf_j.branch_length) == 0):
-        return float(0)
-    else:
-        return (float(leaf_i.branch_length) * float(leaf_j.branch_length))/(float(leaf_i.branch_length) + float(leaf_j.branch_length))
-
 def collapse_parent(clade):
     leaf_list = []
 
@@ -116,20 +102,15 @@ def collapse_parent(clade):
     for child in leaf_list:
         tree.collapse(child)
     
+#matches = find_clades(tree.root, lambda c: c.name == 'ABDA_AEDAE')
+#with np.printoptions(threshold=np.inf):
+#    print(seq_dict[matches[0]])
+
+#for child in tree.clade:
+#    with np.printoptions(threshold=np.inf):
+#        print(seq_dict[child])
+#print(tree.count_terminals())
+
+'''
 
 
-tree = Phylo.read("PS00027.treefile", "newick")
-#tree = Phylo.read("PS00673_full.phy.treefile", "newick")
-print(tree)
-print(tree.count_terminals())
-
-
-start_time = time.time()
-
-#PIC(tree)
-PIC_new(tree)
-
-
-print("--- %s seconds ---" % (time.time() - start_time))
-print(tree)
-print(tree.count_terminals())
