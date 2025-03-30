@@ -36,7 +36,7 @@ def convert_matrix_to_scores(matrix):
             config.existing_characters.append(c)
 
     all_scores = []
-    for i in range(0,24):
+    for i in range(0,config.seq_length):
         scores = []
         for c in config.existing_characters:
             scores.append((str(c),matrix[config.charaters.index(c)][i]))
@@ -245,7 +245,7 @@ def main():
     '''
 
     plt.rcParams['figure.dpi'] = 300
-    fig, axarr = draw_logo(convert_count_to_scores(config.seq_counter),data_type='bits',seq_type=config.seq_type, yaxis='bits',colorscheme='hydrophobicity',draw_axis=True)
+    fig, axarr = draw_logo(convert_count_to_scores(config.seq_counter),colorscheme='hydrophobicity',draw_axis=True)
     fig.tight_layout()
     fig.savefig("without_PIC_bits.png")
     print("without_PIC_bits.png saved")
@@ -314,7 +314,7 @@ def main():
               ('C', 0.34070495229855319)]]
     
     plt.rcParams['figure.dpi'] = 300
-    fig, axarr = draw_logo(ALL_SCORES1)
+    fig, axarr = draw_logo(ALL_SCORES1,yaxis='bits',draw_axis=True)
     fig.tight_layout()
     fig.savefig('seq_ex.png')
     print('seq_ex.png saved')
