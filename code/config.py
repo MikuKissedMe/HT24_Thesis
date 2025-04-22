@@ -3,7 +3,8 @@ seq_dict = None
 seq_counter = None 
 
 matrix = None
-charaters = None
+charaters = set()
+available_characters = None
 existing_characters = None
 
 seq_type = 'dna'
