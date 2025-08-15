@@ -1,8 +1,0 @@
-cd /mnt/c/Thesis/HT24_Thesis/code/
-source venv/bin/activate
-
-python PIC.py PS00027.treefile PS00027.fa
-
-deactivate
-
-pip list --local

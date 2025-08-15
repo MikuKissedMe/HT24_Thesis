@@ -14,13 +14,12 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 from Bio import Phylo
 from Bio import SeqIO
-from pyseqlogo.pyseqlogo import draw_logo, setup_axis
+
 
 from weblogo import LogoData, LogoOptions, LogoFormat, png_formatter, pdf_formatter
 from weblogo.seq import generic_alphabet,protein_alphabet,nucleic_alphabet,dna_alphabet,rna_alphabet,reduced_nucleic_alphabet,reduced_protein_alphabet,unambiguous_dna_alphabet,unambiguous_rna_alphabet,unambiguous_protein_alphabet
 
-#Suppress runtime warnings caused by /pyseqlogo/format_utils.py
-#warnings.filterwarnings("ignore", category=RuntimeWarning)
+
 def export_scores_to_file(scores_str,file_name):
     try:
         with open(file_name, "x") as f:
@@ -81,7 +80,6 @@ def convert_count_to_array(matrix):
                 sub_array.append(matrix[c][i])
         array.append(sub_array)
     #export_scores_to_file(str(all_scores_count),'ex1_without.txt')
-    print(array)
     return np.array(array)
 
 
@@ -133,25 +131,26 @@ def unbifrucating(childs):
 
 
 def PIC_postorder (tree):
+
     for child in tree.clade:
         traverse_postorder(child)
     
     result , seq_matrix = unbifrucating(tree.clade)
 
     array = convert_matrix_to_array(seq_matrix)
-    #print(array)
+    print(array)
     
     logo_data = LogoData.from_counts(alphabet=config.seq_type,counts=array)
 
     logo_options = LogoOptions()
-    logo_options.title = "High-Res Logo"
+    logo_options.title = "With PIC logo"
     logo_options.stack_width = 50   # increase width of each position
     logo_options.stack_height = 100 # increase overall height
 
     logo_format = LogoFormat(logo_data, logo_options)
 
     # Save as PNG
-    with open("high_res_logo.png", "wb") as f:
+    with open("With_PIC_logo.png", "wb") as f:
         f.write(png_formatter(logo_data, logo_format))
     
 
@@ -199,8 +198,7 @@ def traverse_postorder(clade):
 
 
 def parse_dict(filename,filetype = 'fasta'):
-    '''removes position suffix, also checks length and type of sequnces.
-        ex. removes /60-74 from SPLA_STAA9/60-74 '''
+    '''checks length and type of sequnces.'''
 
     record_dict = SeqIO.to_dict(SeqIO.parse(filename, filetype))
     updated_dict = {}
@@ -214,8 +212,7 @@ def parse_dict(filename,filetype = 'fasta'):
 
         config.charaters.update(set(value.upper()))
 
-        new_key = key.split('/')[0]
-        updated_dict [new_key] = value
+        updated_dict [key] = value
 
     return updated_dict
 
@@ -271,7 +268,7 @@ def main():
                                    unambiguous_protein_alphabet,reduced_protein_alphabet,protein_alphabet,generic_alphabet]
     count = 0
     current_chracters = ''.join(config.charaters)
-    print(current_chracters)
+   
     for guess in config.available_characters:
         if guess.alphabetic(current_chracters):
             config.seq_type = guess
@@ -279,7 +276,7 @@ def main():
         count +=1
     if config.seq_type == 'dna':
         raise Exception('No match')
-    print(count)
+
 
     print('sequnce type = ' + str(config.seq_type))
     #print(config.updated_dict['ABDA_AEDAE'].seq)
@@ -298,19 +295,18 @@ def main():
     
     array = convert_count_to_array(config.seq_counter)
     print(array)
-    print(config.seq_counter)
 
     logo_data = LogoData.from_counts(alphabet=config.seq_type,counts=array)
 
     logo_options = LogoOptions()
-    logo_options.title = "without"
+    logo_options.title = "without PIC"
     logo_options.stack_width = 50   # increase width of each position
     logo_options.stack_height = 100 # increase overall height
 
     logo_format = LogoFormat(logo_data, logo_options)
 
     # Save as PNG
-    with open("logo.pdf", "wb") as g:
+    with open("Regular_logo.pdf", "wb") as g:
         g.write(pdf_formatter(logo_data, logo_format))
 
     #print(tree)

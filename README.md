@@ -1,3 +1,1 @@
-# HT24_Thesis
- Repository for my thesis
-![Alt text](checklist.jpg?raw=true "TimePlan")
+python PIC.py PS00027.treefile PS00027.fa
