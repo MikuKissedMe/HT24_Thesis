@@ -1,1 +1,1 @@
-python PIC.py PS00027.treefile PS00027.fa
+python PIC.py ex.treefile ex.fa
